@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { Reveal } from "@/components/motion/Reveal";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -72,7 +74,8 @@ function ContactPage() {
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
-          <aside className="space-y-8">
+          <Reveal as="section" className="space-y-8">
+            <aside className="space-y-8">
             <div>
               <span className="text-xs uppercase tracking-[0.2em] text-accent">Reach us</span>
               <h2 className="mt-2 font-display text-2xl font-semibold text-foreground">Nexus Learning Hub</h2>
@@ -93,6 +96,7 @@ function ContactPage() {
                 <div>
                   <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Phone</div>
                   <a href="tel:+2348034928531" className="mt-1 block text-foreground hover:text-accent">+234 803 492 8531</a>
+                  <a href="tel:+2348064213392" className="mt-0.5 block text-foreground hover:text-accent">+234 806 421 3392</a>
                 </div>
               </li>
               <li className="flex gap-4">
@@ -107,9 +111,16 @@ function ContactPage() {
             <div className="rounded-sm border-l-2 border-accent bg-secondary/50 p-6">
               <p className="font-display italic text-foreground">&ldquo;Building Capacity. Driving Excellence.&rdquo;</p>
             </div>
-          </aside>
+            </aside>
+          </Reveal>
 
-          <form onSubmit={onSubmit} className="rounded-sm border border-border bg-background p-8 md:p-10">
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            onSubmit={onSubmit}
+            className="rounded-sm border border-border bg-background p-8 shadow-sm md:p-10"
+          >
             <h2 className="font-display text-2xl font-semibold text-foreground">Send a message</h2>
             <p className="mt-2 text-sm text-muted-foreground">Fields marked * are required.</p>
 
@@ -140,10 +151,17 @@ function ContactPage() {
               </div>
             </div>
 
-            <Button type="submit" size="lg" className="mt-8 rounded-sm" disabled={submitting}>
-              {submitting ? "Sending…" : (<>Send message <Send className="ml-2 h-4 w-4" /></>)}
+            <Button type="submit" size="lg" className="mt-8 rounded-sm bg-accent text-accent-foreground hover:bg-accent/90 disabled:opacity-70" disabled={submitting}>
+              {submitting ? (
+                <>
+                  <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  Sending…
+                </>
+              ) : (
+                <>Send message <Send className="ml-2 h-4 w-4" /></>
+              )}
             </Button>
-          </form>
+          </motion.form>
         </div>
       </section>
     </>

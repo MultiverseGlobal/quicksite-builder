@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import dipoAsset from "@/assets/dipo-abgoola.jpg.asset.json";
 import kaspaAsset from "@/assets/kaspa-abah.jpg.asset.json";
 import musabAsset from "@/assets/musab-ibrahim.jpg.asset.json";
+import { Reveal, RevealStagger, RevealItem } from "@/components/motion/Reveal";
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -39,14 +40,14 @@ function TeamPage() {
       />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealStagger className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" stagger={0.1}>
           {team.map((m) => (
-            <article key={m.name} className="group overflow-hidden rounded-sm border border-border bg-background transition-shadow hover:shadow-lg">
+            <RevealItem key={m.name} as="article" className="group overflow-hidden rounded-sm border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-lg">
               <div className="aspect-[4/5] overflow-hidden bg-muted">
                 <img
                   src={m.img}
                   alt={`Portrait of ${m.name}`}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                   loading="lazy"
                 />
               </div>
@@ -54,27 +55,27 @@ function TeamPage() {
                 <h3 className="font-display text-lg font-semibold text-foreground">{m.name}</h3>
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-accent">{m.role}</p>
               </div>
-            </article>
+            </RevealItem>
           ))}
-        </div>
+        </RevealStagger>
       </section>
 
       <section className="border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="grid gap-12 md:grid-cols-[1fr_1.3fr]">
+          <Reveal className="grid gap-12 md:grid-cols-[1fr_1.3fr]">
             <div>
               <span className="text-xs uppercase tracking-[0.2em] text-accent">Associate consultants</span>
               <h2 className="mt-2 font-display text-3xl font-semibold text-foreground">A network of specialist resource persons</h2>
             </div>
-            <ul className="space-y-0 divide-y divide-border border-y border-border">
+            <RevealStagger as="ul" className="space-y-0 divide-y divide-border border-y border-border" stagger={0.06}>
               {associates.map((a, i) => (
-                <li key={a} className="flex items-baseline gap-4 py-5">
+                <RevealItem as="li" key={a} className="group flex items-baseline gap-4 py-5">
                   <span className="font-display text-sm text-accent">0{i + 1}</span>
-                  <span className="text-foreground">{a}</span>
-                </li>
+                  <span className="text-foreground transition-transform duration-300 group-hover:translate-x-1">{a}</span>
+                </RevealItem>
               ))}
-            </ul>
-          </div>
+            </RevealStagger>
+          </Reveal>
         </div>
       </section>
     </>
