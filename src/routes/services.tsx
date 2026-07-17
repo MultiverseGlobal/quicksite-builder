@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { GraduationCap, Landmark, Handshake, LineChart, BookOpenCheck } from "lucide-react";
+import { Reveal, RevealStagger, RevealItem } from "@/components/motion/Reveal";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -40,11 +41,12 @@ function ServicesPage() {
       />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="space-y-6">
+        <RevealStagger className="space-y-5" stagger={0.06}>
           {services.map((s, i) => (
-            <div key={s.title} className="group grid gap-6 rounded-sm border border-border bg-background p-8 transition-colors hover:border-accent md:grid-cols-[minmax(220px,auto)_1fr] md:items-start md:gap-10">
+            <RevealItem key={s.title} as="article" className="group relative grid gap-6 overflow-hidden rounded-sm border border-border bg-background p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-md md:grid-cols-[minmax(220px,auto)_1fr] md:items-start md:gap-10">
+              <span aria-hidden className="absolute left-0 top-0 h-full w-[3px] origin-top scale-y-0 bg-accent transition-transform duration-500 group-hover:scale-y-100" />
               <div className="flex items-start gap-4">
-                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-sm border border-accent/40 bg-accent/10 text-accent">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-sm border border-accent/40 bg-accent/10 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent group-hover:text-accent-foreground">
                   <s.icon className="h-5 w-5" strokeWidth={1.5} />
                 </div>
                 <div>
@@ -55,14 +57,14 @@ function ServicesPage() {
                 </div>
               </div>
               <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">{s.body}</p>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealStagger>
       </section>
 
       <section className="border-t border-border bg-secondary/40">
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <div className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
+          <Reveal className="grid gap-12 md:grid-cols-[1fr_1.4fr]">
             <div>
               <span className="text-xs uppercase tracking-[0.2em] text-accent">Key expertise</span>
               <h2 className="mt-2 font-display text-3xl font-semibold text-foreground">Where we go deep</h2>
@@ -70,15 +72,15 @@ function ServicesPage() {
                 Our associate network combines former regulators, academics, and certified practitioners.
               </p>
             </div>
-            <ul className="space-y-0 divide-y divide-border border-y border-border">
+            <RevealStagger as="ul" className="space-y-0 divide-y divide-border border-y border-border" stagger={0.06}>
               {expertise.map((e, i) => (
-                <li key={e} className="flex items-baseline gap-4 py-5">
+                <RevealItem as="li" key={e} className="group flex items-baseline gap-4 py-5 transition-colors hover:bg-background/60">
                   <span className="font-display text-sm text-accent">0{i + 1}</span>
-                  <span className="text-foreground">{e}</span>
-                </li>
+                  <span className="text-foreground transition-transform duration-300 group-hover:translate-x-1">{e}</span>
+                </RevealItem>
               ))}
-            </ul>
-          </div>
+            </RevealStagger>
+          </Reveal>
         </div>
       </section>
     </>
