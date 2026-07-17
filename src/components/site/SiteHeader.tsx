@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import logoAsset from "@/assets/nexus-logo.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -16,12 +18,16 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-18 max-w-6xl items-center justify-between px-6 py-4">
-        <Link to="/" className="flex items-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-sm bg-primary text-primary-foreground font-display text-lg font-bold">
-            N
-          </span>
-          <span className="flex flex-col leading-tight">
-            <span className="font-display text-base font-semibold text-foreground">Nexus Learning Hub</span>
+        <Link to="/" className="group flex items-center gap-3">
+          <img
+            src={logoAsset.url}
+            alt="Nexus Learning Hub"
+            className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
+            width={80}
+            height={80}
+          />
+          <span className="hidden flex-col leading-tight sm:flex">
+            <span className="font-display text-sm font-semibold text-foreground">Nexus Learning Hub</span>
             <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Building capacity · Driving excellence</span>
           </span>
         </Link>
@@ -31,11 +37,12 @@ export function SiteHeader() {
             <Link
               key={item.to}
               to={item.to}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "text-foreground" }}
+              className="relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "text-foreground [&>span]:scale-x-100" }}
               activeOptions={{ exact: item.to === "/" }}
             >
               {item.label}
+              <span aria-hidden className="pointer-events-none absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 bg-accent transition-transform duration-300" />
             </Link>
           ))}
           <Button asChild size="sm" className="rounded-sm">
@@ -53,24 +60,33 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {open ? (
-        <div className="border-t border-border md:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col px-6 py-4">
-            {nav.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
-                activeProps={{ className: "text-foreground" }}
-                activeOptions={{ exact: item.to === "/" }}
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      ) : null}
+      <AnimatePresence initial={false}>
+        {open ? (
+          <motion.div
+            key="mobile-menu"
+            className="overflow-hidden border-t border-border md:hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <nav className="mx-auto flex max-w-6xl flex-col px-6 py-4">
+              {nav.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
+                  activeProps={{ className: "text-accent" }}
+                  activeOptions={{ exact: item.to === "/" }}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </header>
   );
 }

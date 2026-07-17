@@ -1,59 +1,79 @@
-## Nexus Learning Hub — Website Plan
+## Nexus Learning Hub — Refresh Plan
 
-Build a polished, multi-page marketing website for Nexus Learning Hub using content extracted from the uploaded company profile, with dedicated routes and a working contact form.
+Refine the current site: tighten layouts, adopt the logo's color system, add motion (medium) plus a signature hero animation, wire up the real logo from the letterhead, and clean up routing/details. Team role changes will come in a follow-up round.
 
-### Pages (separate routes for SEO)
+### 1. Brand + color system (from the logo)
 
-- `/` — Home: hero ("Building Capacity. Driving Excellence."), tagline, brief about, service highlights, Nexus Model teaser, CTA to Contact.
-- `/about` — About: full About Us copy, Vision, Mission, N.E.X.U.S core values, "Why Partner With Us", the Nexus Model diagram (Government + Academia + Private Sector + Development Partners).
-- `/services` — Services: all 5 core services with detail cards + Key Expertise Areas.
-- `/team` — Team: leadership grid using the uploaded photos:
-  - Mr Dipo Abgoola — Director, Programme
-  - Kaspa Abah (Ph.D) — Lead Consultant
-  - Mus'ab Ibrahim — Director, Policy and Strategy
-  - Fourth portrait (blue kaftan) — listed as team member; I'll leave name/title editable placeholders for you to fill in.
-  Also a brief note about Associate Consultants pool (former BPP Directors, professors, etc.).
-- `/contact` — Contact: address, phone, email, embedded map link, and a working contact form.
+Rewrite the design tokens in `src/styles.css` around the logo palette:
 
-### Shared chrome (in `__root.tsx`)
+- Background: `#FFFFFF` (page) / `#F5EFE6` (warm ivory sections)
+- Foreground / ink: `#0E0E10`
+- Primary accent (brand orange): `#EE7A2C`
+- Muted ink for body copy, hairline borders in a warm neutral
+- Preserve shadcn `@theme inline` mapping; no hardcoded color utilities
 
-- Sticky header with Nexus wordmark logo + nav (Home, About, Services, Team, Contact) and a "Get in touch" CTA.
-- Footer with contact details, tagline, quick links.
-- Per-route `head()` metadata (unique title / description / og tags per page).
+Typography stays Playfair Display (headings) + Inter (body).
 
-### Design direction
+### 2. Real logo asset
 
-- Professional, institutional consulting aesthetic — think World Bank / BPP / policy-think-tank sites, not startup-y.
-- Palette: deep navy primary + gold/amber accent + warm neutral background (evokes Nigerian government/academic partnership feel).
-- Typography: serif display headings (authority) paired with a clean sans body (Playfair Display + Inter or similar).
-- Composition: generous whitespace, subtle dividers, restrained iconography for services, elegant team cards.
-- All colors as HSL design tokens in `src/styles.css` — no hardcoded Tailwind color utilities in components.
+- Extract the NL monogram from `NEXUS_LEARNING_LETTERHEAD_1_043715.pdf` page 1 and upload it via `lovable-assets` as `nexus-logo.png` (transparent).
+- Replace the placeholder "N" tile in `SiteHeader` and `SiteFooter` with the real mark + wordmark "Nexus Learning Hub Ltd".
+- Use it as the favicon.
 
-### Assets
+### 3. Signature hero animation (Home)
 
-- Upload the 4 team portraits via `lovable-assets` (CDN pointers in `src/assets/`), not committed binaries.
-- Extract/upload the Nexus Learning Hub logo from the parsed DOCX for the header.
+- Kinetic hero: the NL monogram draws in (SVG stroke), the headline "Building Capacity. Driving Excellence." stagger-fades word by word, a soft orange radial glow pulses behind the mark.
+- Built with `framer-motion` (install if not present). GPU-friendly, respects `prefers-reduced-motion`.
 
-### Contact form (requires Lovable Cloud)
+### 4. Motion pass (medium, site-wide)
 
-- Enable Lovable Cloud.
-- Migration creates `public.contact_submissions` (id, name, email, phone, organization, subject, message, created_at) with GRANTs, RLS enabled, and an `anon` INSERT-only policy (public can submit; only admins/service_role can read).
-- Client validates with Zod (name/email/message required, max lengths) before insert via the browser Supabase client.
-- Toast confirmation on success; graceful error handling.
-- (Email notification to your inbox is out of scope for v1 — submissions will land in the database. Say the word and I'll add a Resend-powered notification later.)
+- Section reveal on scroll (fade + 12px rise, once, staggered children) via a small `Reveal` wrapper using `framer-motion` + IntersectionObserver.
+- Hover lifts on service cards and team cards (translate-y + shadow).
+- Animated underline on nav links (already have `story-link` utility — extend for active state).
+- Page transition: fade/slide between routes at the `<Outlet />` level.
+- Contact form: field focus ring animates, submit button has a subtle press + loading spinner.
 
-### Technical details
+### 5. Tighten every page (same content, cleaner)
 
-- TanStack Start file-based routes under `src/routes/` (`index.tsx`, `about.tsx`, `services.tsx`, `team.tsx`, `contact.tsx`).
-- Replace the placeholder `src/routes/index.tsx`.
-- Update `__root.tsx` head() with real title/description/og for the site.
-- shadcn/ui components for buttons, cards, form inputs, toast.
-- Fully responsive (mobile-first).
-- Real footer + header on every page via `__root.tsx` around `<Outlet />`.
+Keep density, improve hierarchy and breathing room:
 
-### Out of scope for v1 (say the word to add)
+- **Home**: shrink hero to one screen, three concise value pills, one services teaser row (icons + one-liners), one about strip, single CTA band. Remove duplicate CTAs.
+- **About**: two-column intro (mission / vision), N.E.X.U.S values as a compact 5-up grid instead of long cards, Nexus Model diagram as a clean 4-node graphic (Government · Academia · Private Sector · Development Partners) connected to a central node.
+- **Services**: 5 service cards in a 2-col grid with expandable "Key expertise" chips row below — no more wall of paragraphs.
+- **Team**: leave copy/photos as-is for now (roles update comes next round). Just tighten the grid and card frame.
+- **Contact**: two-column layout — details/map card on the left, form on the right. Trim helper copy.
 
-- Blog / Insights section.
-- Email notification when someone submits the contact form.
-- Admin dashboard to view submissions in-app (they'll be visible in the Cloud database view).
-- CMS / editable content — copy is hardcoded and I'll edit it on request.
+### 6. Routing + polish
+
+- Verify each route file's `createFileRoute` path matches its filename (Home, About, Services, Team, Contact — all already separate routes).
+- Per-route `head()`: unique title + description + og:title/og:description already in place; audit and tighten copy.
+- Add active-state styling to nav (bolder, orange underline).
+- Mobile menu: animate open/close (height + fade).
+- 404 page: match the new brand look.
+
+### 7. Contact details
+
+Pulled from the letterhead — surface these everywhere (footer + `/contact`):
+- No. 7 Valentino Echesi Street, Lugbe, Abuja
+- +234 803 492 8531, +234 806 421 3392
+- nexuslearninghublimited@gmail.com
+
+### 8. Team roles
+
+Deferred per your note — I'll ship the visual refresh first, then you send the final Name — Role list and I'll swap them in.
+
+### Out of scope this round
+
+- Team role/name updates (next round)
+- Blog / insights
+- Email notifications on contact form submit
+- New photography
+
+### Technical notes
+
+- Install: `framer-motion`.
+- New file: `src/components/motion/Reveal.tsx` (scroll-reveal wrapper).
+- New file: `src/components/site/HeroAnimated.tsx` (hero animation).
+- Update: `src/styles.css` (palette), `SiteHeader.tsx`, `SiteFooter.tsx`, all 5 route files, `__root.tsx` (page transition + favicon + og updates).
+- Add: `src/assets/nexus-logo.png.asset.json` via `lovable-assets`.
+- Respect `prefers-reduced-motion` in every animation.
