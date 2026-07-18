@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import dipoAsset from "@/assets/dipo-abgoola.jpg.asset.json";
 import kaspaAsset from "@/assets/kaspa-abah.jpg.asset.json";
 import musabAsset from "@/assets/musab-ibrahim.jpg.asset.json";
+import greenwillAsset from "@/assets/greenwill-kanu.jpg.asset.json";
 import { Reveal, RevealStagger, RevealItem } from "@/components/motion/Reveal";
 
 export const Route = createFileRoute("/team")({
@@ -18,9 +19,10 @@ export const Route = createFileRoute("/team")({
 });
 
 const team = [
-  { name: "Mr Dipo Abgoola", role: "Director, Programme", img: dipoAsset.url },
-  { name: "Kaspa Abah, Ph.D", role: "Lead Consultant", img: kaspaAsset.url },
-  { name: "Mus'ab Ibrahim", role: "Director, Policy and Strategy", img: musabAsset.url },
+  { name: "Mr Dipo Abgoola", role: "Director, Projects", img: dipoAsset.url },
+  { name: "Kaspa Abah, Ph.D", role: "Lead Technical Consultant", img: kaspaAsset.url },
+  { name: "Mus'ab Ibrahim", role: "Director, Research and Strategy", img: musabAsset.url },
+  { name: "Barr. Greenwill Chinedum Kanu", role: "Chief Legal Adviser", img: greenwillAsset.url },
 ];
 
 const associates = [
