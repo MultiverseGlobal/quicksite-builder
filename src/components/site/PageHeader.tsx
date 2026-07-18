@@ -1,9 +1,16 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
+import bgAsset from "@/assets/bg-abuja.jpg.asset.json";
 
 export function PageHeader({ eyebrow, title, description, children }: { eyebrow?: string; title: string; description?: string; children?: ReactNode }) {
   return (
     <section className="relative overflow-hidden border-b border-border bg-primary text-primary-foreground">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-25"
+        style={{ backgroundImage: `url(${bgAsset.url})` }}
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary via-primary/85 to-primary/50" />
       <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(50% 60% at 85% 20%, oklch(0.72 0.17 47 / 0.22) 0%, transparent 65%)" }} />
       <div className="relative mx-auto max-w-6xl px-6 py-16 md:py-20">
         {eyebrow ? (
