@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoAsset from "@/assets/nexus-logo.png.asset.json";
+import bgAsset from "@/assets/bg-abuja.jpg.asset.json";
 
 const words = ["Building", "Capacity."];
 const words2 = ["Driving", "Excellence."];
@@ -12,6 +13,13 @@ export function HeroAnimated() {
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-background">
+      {/* Editorial background photo */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-[0.10]"
+        style={{ backgroundImage: `url(${bgAsset.url})` }}
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
       {/* Soft orange radial glow */}
       <motion.div
         aria-hidden
