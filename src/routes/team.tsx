@@ -13,7 +13,9 @@ export const Route = createFileRoute("/team")({
       { name: "description", content: "Meet the directors and lead consultants behind Nexus Learning Hub, plus our network of associate consultants and resource persons." },
       { property: "og:title", content: "Our Team — Nexus Learning Hub" },
       { property: "og:description", content: "A pool of former BPP directors, university professors, and certified procurement and project management professionals." },
+      { property: "og:url", content: "/team" },
     ],
+    links: [{ rel: "canonical", href: "/team" }],
   }),
   component: TeamPage,
 });
@@ -51,6 +53,9 @@ function TeamPage() {
                   alt={`Portrait of ${m.name}`}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                   loading="lazy"
+                  decoding="async"
+                  width={800}
+                  height={1000}
                 />
               </div>
               <div className="border-t border-border p-6">

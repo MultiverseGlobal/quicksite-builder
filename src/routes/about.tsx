@@ -10,7 +10,9 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "Nexus Learning Hub is a Nigerian training, research, and management consulting firm serving government, academia, and the private sector." },
       { property: "og:title", content: "About Nexus Learning Hub" },
       { property: "og:description", content: "Our vision, mission, and the N.E.X.U.S values that guide our work with institutions across Africa." },
+      { property: "og:url", content: "/about" },
     ],
+    links: [{ rel: "canonical", href: "/about" }],
   }),
   component: AboutPage,
 });
