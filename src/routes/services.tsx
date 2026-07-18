@@ -10,7 +10,9 @@ export const Route = createFileRoute("/services")({
       { name: "description", content: "Capacity building, technical consultancy, institutional partnerships, research, and e-learning services for the public and private sectors." },
       { property: "og:title", content: "Services — Nexus Learning Hub" },
       { property: "og:description", content: "Explore our five core services and key expertise areas, aligned with BPP, NUC, AfCFTA, and World Bank SPESSE objectives." },
+      { property: "og:url", content: "/services" },
     ],
+    links: [{ rel: "canonical", href: "/services" }],
   }),
   component: ServicesPage,
 });

@@ -25,6 +25,7 @@ export function SiteHeader() {
             className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
             width={80}
             height={80}
+            decoding="async"
           />
           <span className="hidden flex-col leading-tight sm:flex">
             <span className="font-display text-sm font-semibold text-foreground">Nexus Learning Hub</span>

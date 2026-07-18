@@ -19,7 +19,9 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with Nexus Learning Hub in Abuja, Nigeria. Call, email, or send us a message to discuss training and consultancy engagements." },
       { property: "og:title", content: "Contact Nexus Learning Hub" },
       { property: "og:description", content: "No. 7 Valentino Echesi Street, Lugbe, Abuja. +234 803 492 8531." },
+      { property: "og:url", content: "/contact" },
     ],
+    links: [{ rel: "canonical", href: "/contact" }],
   }),
   component: ContactPage,
 });

@@ -5,6 +5,38 @@ import { HeroAnimated } from "@/components/site/HeroAnimated";
 import { Reveal, RevealStagger, RevealItem } from "@/components/motion/Reveal";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Nexus Learning Hub — Building Capacity. Driving Excellence." },
+      { name: "description", content: "Training, research, and management consulting for the public and private sectors across Nigeria and Africa." },
+      { property: "og:title", content: "Nexus Learning Hub" },
+      { property: "og:description", content: "Training, research, and management consulting for the public and private sectors across Africa." },
+      { property: "og:url", content: "/" },
+      { property: "og:type", content: "website" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Nexus Learning Hub Limited",
+          url: "/",
+          description:
+            "Training, research, and management consulting firm bridging policy, practice, and professional development.",
+          email: "nexuslearninghublimited@gmail.com",
+          telephone: ["+234-803-492-8531", "+234-806-421-3392"],
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "No. 7 Valentino Echesi Street, Lugbe",
+            addressLocality: "Abuja",
+            addressCountry: "NG",
+          },
+        }),
+      },
+    ],
+  }),
   component: Index,
 });
 

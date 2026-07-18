@@ -127,6 +127,8 @@ export function HeroAnimated() {
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.4 }}
               width={400}
               height={400}
+              decoding="async"
+              fetchPriority="high"
             />
           </motion.div>
         </div>
