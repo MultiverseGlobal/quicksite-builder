@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import logoAsset from "@/assets/nexus-logo.png.asset.json";
+import logoUrl from "@/assets/nexus-logo.png";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -20,7 +20,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-18 max-w-6xl items-center justify-between px-6 py-4">
         <Link to="/" className="group flex items-center gap-3">
           <img
-            src={logoAsset.url}
+            src={logoUrl}
             alt="Nexus Learning Hub"
             className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
             width={80}

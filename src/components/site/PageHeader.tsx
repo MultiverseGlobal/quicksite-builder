@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import bgAsset from "@/assets/bg-abuja.jpg.asset.json";
+import bgUrl from "@/assets/bg-abuja.jpg";
 
 export function PageHeader({ eyebrow, title, description, children }: { eyebrow?: string; title: string; description?: string; children?: ReactNode }) {
   return (
@@ -8,7 +8,7 @@ export function PageHeader({ eyebrow, title, description, children }: { eyebrow?
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-25"
-        style={{ backgroundImage: `url(${bgAsset.url})` }}
+        style={{ backgroundImage: `url(${bgUrl})` }}
       />
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-r from-primary via-primary/85 to-primary/50" />
       <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(50% 60% at 85% 20%, oklch(0.72 0.17 47 / 0.22) 0%, transparent 65%)" }} />
