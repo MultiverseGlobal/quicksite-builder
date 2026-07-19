@@ -2,8 +2,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoAsset from "@/assets/nexus-logo.png.asset.json";
-import bgAsset from "@/assets/bg-abuja.jpg.asset.json";
+import logoUrl from "@/assets/nexus-logo.png";
+import bgUrl from "@/assets/bg-abuja.jpg";
 
 const words = ["Building", "Capacity."];
 const words2 = ["Driving", "Excellence."];
@@ -17,7 +17,7 @@ export function HeroAnimated() {
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-[0.10]"
-        style={{ backgroundImage: `url(${bgAsset.url})` }}
+        style={{ backgroundImage: `url(${bgUrl})` }}
       />
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/70 via-background/85 to-background" />
       {/* Soft orange radial glow */}
@@ -120,7 +120,7 @@ export function HeroAnimated() {
             className="grid place-items-center px-8"
           >
             <motion.img
-              src={logoAsset.url}
+              src={logoUrl}
               alt="Nexus Learning Hub logo mark"
               className="h-72 w-auto drop-shadow-sm"
               animate={reduce ? undefined : { y: [0, -8, 0] }}
