@@ -1,46 +1,35 @@
-## Final polish before ship
+## Why images break on Vercel
 
-A short, focused pass to finish the site.
+Every image on the site (logo, team portraits, backgrounds) is served from Lovable's CDN via URLs like `/__l5e/assets-v1/<id>/<filename>`. That `/__l5e/...` path is a Lovable-only route — it's handled by Lovable's hosting infra, not by the built app. When you deploy the same build to Vercel, nothing serves that path, so every `<img>` 404s.
 
-### 1. SEO plumbing
+The `.asset.json` files in `src/assets/` are just pointers to that CDN — they don't ship the actual binary in the Vercel bundle.
 
-- Add `src/routes/sitemap[.]xml.ts` server route listing `/`, `/about`, `/services`, `/team`, `/contact`.
-- Add `public/robots.txt` with `Allow: /` and a `Sitemap:` directive (once you confirm the production URL — Lovable subdomain vs custom domain).
-- Add `<link rel="canonical">` per route in each route's `head()`.
-- Add JSON-LD `Organization` schema on the home route (name, logo, address from the letterhead, phones, email, sameAs socials if any).
-- Tighten each page's title/description to stay under 60/160 chars.
+## Fix: bring the images back into the repo so any host can serve them
 
-### 2. Images "deploy-ready"
+I'll re-download each asset from the Lovable CDN, drop the real file into `src/assets/`, and switch every import from the `.asset.json` pointer to a normal Vite image import. Vite will then fingerprint and bundle them, and they'll work on Vercel, Netlify, Cloudflare Pages, Lovable — anywhere.
 
-Note: the site runs on TanStack Start on Cloudflare Workers via Lovable, not Vercel — but the same principles apply. Right now the team portraits and background are full-size JPEGs served from the CDN. I'll:
+### Files to re-localise
 
-- Re-encode the four team portraits + the Abuja background to properly sized, web-optimized JPEGs (max ~1200px on the long edge for portraits, ~1920px for the hero background) and re-upload as fresh assets, replacing the current pointers.
-- Add `width`, `height`, and `loading="lazy"` attributes on every `<img>` except the hero LCP image (which gets `fetchpriority="high"`).
-- Add `decoding="async"` on all images.
-- Give the logo an explicit `width`/`height` in the header to prevent CLS.
+- `nexus-logo.png` (logo mark — used in header, footer, hero)
+- `dipo-abgoola.jpg`, `kaspa-abah.jpg`, `musab-ibrahim.jpg`, `greenwill-kanu.jpg` (team portraits)
+- `bg-abuja.jpg`, `bg-warm.jpg` (backgrounds)
 
-### 3. Favicon + social preview
+### Code changes
 
-- Wire the Nexus logo mark as the favicon in `__root.tsx` (currently generic).
-- Add per-route `og:image` on Home pointing to the logo (absolute URL). Leave other pages without og:image so Lovable's auto-screenshot fills in.
+- Replace `import xAsset from "@/assets/x.jpg.asset.json"` + `xAsset.url` with `import x from "@/assets/x.jpg"` + `src={x}` in:
+  - `src/components/site/HeroAnimated.tsx`
+  - `src/components/site/PageHeader.tsx`
+  - `src/components/site/SiteHeader.tsx`
+  - `src/components/site/SiteFooter.tsx`
+  - `src/routes/team.tsx`
+- Delete the 7 `*.asset.json` pointer files after the imports are switched.
+- Keep everything else (layout, motion, SEO) as is.
 
-### 4. Small QA fixes
+### Verify
 
-- Verify every route's metadata is unique (no duplicates from the earlier refactor).
-- Confirm the contact form's success/error toasts still render and the Supabase insert works after the recent edits.
-- Check mobile menu closes on route change.
-- Add a simple 404 page styled to match the brand.
+- Run `bun run build` and confirm the images appear in `dist/` with hashed filenames.
+- Spot-check the preview to make sure the logo, portraits and backgrounds still render.
 
-### Out of scope
+### Note on Vercel + TanStack Start
 
-- Blog / insights section
-- Multi-language
-- Email notifications on contact submit (still just DB insert)
-- Custom domain setup — you'll do that from Project Settings after publishing.
-
-### One question before I start
-
-What URL should I bake into the sitemap and canonical tags? Options:
-- **A.** Use the Lovable subdomain for now (e.g. `nexus-learning-hub.lovable.app`) and swap later when you connect a custom domain.
-- **B.** You already have a custom domain in mind — tell me and I'll use it.
-- **C.** Leave `BASE_URL` empty with a TODO and fill it in when you publish.
+The site is a TanStack Start app configured for Cloudflare Workers by default. That build output doesn't run natively on Vercel's Node/Edge runtime — you may see other 500s beyond the images (SSR entry, sitemap route). If you want, I can also swap the deploy target to Vercel's adapter in the same pass — say the word and I'll fold it into the plan.
