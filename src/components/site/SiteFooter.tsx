@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, Phone, MapPin } from "lucide-react";
-import logoAsset from "@/assets/nexus-logo.png.asset.json";
+import logoUrl from "@/assets/nexus-logo.png";
 
 export function SiteFooter() {
   return (
@@ -8,7 +8,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <img src={logoAsset.url} alt="Nexus Learning Hub" className="h-12 w-auto" width={80} height={80} loading="lazy" decoding="async" style={{ filter: "drop-shadow(0 0 8px oklch(0.72 0.17 47 / 0.25))" }} />
+            <img src={logoUrl} alt="Nexus Learning Hub" className="h-12 w-auto" width={80} height={80} loading="lazy" decoding="async" style={{ filter: "drop-shadow(0 0 8px oklch(0.72 0.17 47 / 0.25))" }} />
             <span className="font-display text-lg font-semibold">Nexus Learning Hub Ltd</span>
           </div>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-primary-foreground/70">
