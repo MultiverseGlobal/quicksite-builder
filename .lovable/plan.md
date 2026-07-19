@@ -1,35 +1,17 @@
-## Why images break on Vercel
+Current state
+- The homepage hero (src/components/site/HeroAnimated.tsx) headline reads "Building Capacity. Driving Excellence." with a logo-mark image on the right.
+- The company name "Nexus Learning Hub" only appears in the header and footer, not as the dominant homepage element.
 
-Every image on the site (logo, team portraits, backgrounds) is served from Lovable's CDN via URLs like `/__l5e/assets-v1/<id>/<filename>`. That `/__l5e/...` path is a Lovable-only route — it's handled by Lovable's hosting infra, not by the built app. When you deploy the same build to Vercel, nothing serves that path, so every `<img>` 404s.
+Proposed change
+1. Redesign the hero so the company name "NEXUS Learning Hub" is the bold, primary visual on the homepage.
+2. Keep the existing tagline "Building Capacity. Driving Excellence." as a sub-headline.
+3. Retain the Abuja background image, warm orange radial glow, grid hairlines, and scroll/motion effects.
+4. Keep the logo mark but reduce its prominence (smaller, decorative) or replace the right-side logo card with a typographic lockup that includes the full name.
+5. Preserve the orange-and-ink color palette, font pairing (Playfair Display + Inter), and all existing SEO metadata.
+6. Ensure the change is responsive across mobile, tablet, and desktop.
 
-The `.asset.json` files in `src/assets/` are just pointers to that CDN — they don't ship the actual binary in the Vercel bundle.
-
-## Fix: bring the images back into the repo so any host can serve them
-
-I'll re-download each asset from the Lovable CDN, drop the real file into `src/assets/`, and switch every import from the `.asset.json` pointer to a normal Vite image import. Vite will then fingerprint and bundle them, and they'll work on Vercel, Netlify, Cloudflare Pages, Lovable — anywhere.
-
-### Files to re-localise
-
-- `nexus-logo.png` (logo mark — used in header, footer, hero)
-- `dipo-abgoola.jpg`, `kaspa-abah.jpg`, `musab-ibrahim.jpg`, `greenwill-kanu.jpg` (team portraits)
-- `bg-abuja.jpg`, `bg-warm.jpg` (backgrounds)
-
-### Code changes
-
-- Replace `import xAsset from "@/assets/x.jpg.asset.json"` + `xAsset.url` with `import x from "@/assets/x.jpg"` + `src={x}` in:
-  - `src/components/site/HeroAnimated.tsx`
-  - `src/components/site/PageHeader.tsx`
-  - `src/components/site/SiteHeader.tsx`
-  - `src/components/site/SiteFooter.tsx`
-  - `src/routes/team.tsx`
-- Delete the 7 `*.asset.json` pointer files after the imports are switched.
-- Keep everything else (layout, motion, SEO) as is.
-
-### Verify
-
-- Run `bun run build` and confirm the images appear in `dist/` with hashed filenames.
-- Spot-check the preview to make sure the logo, portraits and backgrounds still render.
-
-### Note on Vercel + TanStack Start
-
-The site is a TanStack Start app configured for Cloudflare Workers by default. That build output doesn't run natively on Vercel's Node/Edge runtime — you may see other 500s beyond the images (SSR entry, sitemap route). If you want, I can also swap the deploy target to Vercel's adapter in the same pass — say the word and I'll fold it into the plan.
+Implementation notes
+- Update src/components/site/HeroAnimated.tsx only.
+- Use Framer Motion for word/letter stagger reveal on "NEXUS Learning Hub".
+- Keep the existing CTA buttons and trust-strip section below unchanged.
+- Verify the build passes and the preview renders correctly.
